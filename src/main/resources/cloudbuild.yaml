@@ -1,0 +1,15 @@
+substitutions:
+  _ARTIFACT_REGISTRY_REPO: "green-energy-tracker-cloud-repo"
+  _IMAGE_NAME: "sites-service"
+  _LOCATION: "europe-west8"
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [ 'build', '-t',
+        '$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA',
+        '.'
+      ]
+
+images:
+  - '$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA'
