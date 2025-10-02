@@ -4,14 +4,12 @@ substitutions:
   _LOCATION: "europe-west8"
 
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [ 'build', '-t',
-        '$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA',
-        '.'
-      ]
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: [
+      'compile',
+      'jib:build',
+      '-Dimage=$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA'
+    ]
+
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
-
-images:
-  - '$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA'
