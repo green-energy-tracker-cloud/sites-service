@@ -21,6 +21,7 @@ steps:
       '--image=$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA',
       '--region=$_LOCATION',
       '--platform=managed',
+      '--service-account=cloud-run-runtime@green-energy-tracker.iam.gserviceaccount.com',
       '--allow-unauthenticated'
     ]
 
