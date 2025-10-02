@@ -6,8 +6,7 @@ substitutions:
 steps:
   - name: 'gcr.io/cloud-builders/mvn'
     args: [
-      'compile',
-      'jib:build',
+      'com.google.cloud.tools:jib-maven-plugin:3.4.5:build',
       '-Dimage=$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA'
     ]
 
