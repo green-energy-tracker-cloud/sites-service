@@ -10,6 +10,8 @@ steps:
         '$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA',
         '.'
       ]
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 
 images:
   - '$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA'
