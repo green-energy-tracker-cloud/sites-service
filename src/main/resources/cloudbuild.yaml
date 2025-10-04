@@ -11,6 +11,11 @@ availableSecrets:
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 
+cache:
+  key: "maven-cache"
+  paths:
+    - "/root/.m2"
+
 steps:
 
   - name: 'gcr.io/cloud-builders/mvn'
