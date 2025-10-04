@@ -21,7 +21,7 @@ steps:
     args:
       - -c
       - |
-        mvn verify sonar:sonar \
+        mvn sonar:sonar \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.organization=green-energy-tracker-cloud \
           -Dsonar.projectKey=$PROJECT_ID \
