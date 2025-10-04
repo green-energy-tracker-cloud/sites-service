@@ -1,5 +1,5 @@
 substitutions:
-  _ARTIFACT_REGISTRY_REPO: "green-energy-tracker-cloud-repo"
+  _ARTIFACT_REGISTRY_REPO: "artifact-repo"
   _IMAGE_NAME: "sites-service"
   _LOCATION: "europe-west8"
 
