@@ -1,18 +1,29 @@
 substitutions:
+  _ARTIFACT_REGISTRY_REPO: "artifact-repo"
   _IMAGE_NAME: "sites-service"
-  _INFRA_REPO_URL: "https://github.com/green-energy-tracker-cloud/infra.git"
-  _CLOUDBUILD_CONFIG_PATH: "cloudbuild/cloudbuild.yaml"
+  _LOCATION: "europe-west8"
+
+steps:
+
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: [ 'clean', 'package' ]
+
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: [
+      'com.google.cloud.tools:jib-maven-plugin:3.4.5:build',
+      '-Dimage=$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA'
+    ]
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: [
+      'run', 'deploy', '$_IMAGE_NAME',
+      '--image=$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA',
+      '--region=$_LOCATION',
+      '--platform=managed',
+      '--service-account=cloud-run-runtime@green-energy-tracker.iam.gserviceaccount.com',
+      '--allow-unauthenticated'
+    ]
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
-
-steps:
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args:
-      [
-        'builds', 'submit',
-        '--config', '$_CLOUDBUILD_CONFIG_PATH',
-        '--substitutions=_IMAGE_NAME=_IMAGE_NAME,_VERSION=$_VERSION',
-        '$_INFRA_REPO_URL'
-      ]
