@@ -32,6 +32,7 @@
 		<spring-cloud.version>2024.0.2</spring-cloud.version>
 		<swaggerVersion>2.2.13</swaggerVersion>
 		<openApiVersion>2.7.0</openApiVersion>
+		<sonarPluginVersion>3.9.1.2184</sonarPluginVersion>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -104,6 +105,11 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>${sonarPluginVersion}</version>
 			</plugin>
 		</plugins>
 	</build>

@@ -3,10 +3,30 @@ substitutions:
   _IMAGE_NAME: "sites-service"
   _LOCATION: "europe-west8"
 
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/SONARCLOUD_TOKEN/versions/latest
+      env: 'SONAR_TOKEN'
+
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+
 steps:
 
   - name: 'gcr.io/cloud-builders/mvn'
-    args: [ 'clean', 'package' ]
+    args: [ 'clean', 'verify' ]
+
+  - name: 'maven:3.9.4-eclipse-temurin-17'
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        mvn verify sonar:sonar \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.organization=green-energy-tracker-cloud \
+          -Dsonar.projectKey=$PROJECT_ID \
+          -Dsonar.login=$$SONAR_TOKEN
+    secretEnv: ['SONAR_TOKEN']
 
   - name: 'gcr.io/cloud-builders/mvn'
     args: [
@@ -24,6 +44,3 @@ steps:
       '--service-account=cloud-run-runtime@green-energy-tracker.iam.gserviceaccount.com',
       '--allow-unauthenticated'
     ]
-
-options:
-  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
