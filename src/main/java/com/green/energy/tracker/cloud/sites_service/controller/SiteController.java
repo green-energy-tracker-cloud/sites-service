@@ -40,7 +40,7 @@ public class SiteController {
             @RequestParam(name = "name") String name,
             @RequestParam(name = "description") String description,
             @RequestParam(name = "location") String location) throws Exception {
-        return ResponseEntity.ok().body(siteService.createSite(userId, name, description, location));
+        return ResponseEntity.ok().body(siteService.save(userId, name, description, location));
     }
 
     @PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -59,7 +59,7 @@ public class SiteController {
     })
 
     public ResponseEntity<Site> updateSite(@RequestParam(name = "siteId") String siteId, @RequestBody Site site) throws Exception {
-        return siteService.updateSite(siteId,site).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return siteService.update(siteId,site).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
 
@@ -79,7 +79,7 @@ public class SiteController {
     })
 
     public ResponseEntity<Void> deleteByName(@RequestParam(name = "name") String name) throws Exception {
-        return siteService.deleteSite(name) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+        return siteService.delete(name) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
     @GetMapping(path = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -97,7 +97,7 @@ public class SiteController {
             @ApiResponse(responseCode = "504", description = "Gateway Timeout", content = {@Content(mediaType = "application/json")})
     })
     public ResponseEntity<List<Site>> getAllSites() throws Exception {
-        return ResponseEntity.ok(siteService.getAllSites());
+        return ResponseEntity.ok(siteService.getAll());
     }
 
     @GetMapping(path = "/findByName", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -116,7 +116,7 @@ public class SiteController {
     })
 
     public ResponseEntity<Site> getByName(@RequestParam(name = "name") String name) throws Exception {
-        return siteService.getSiteByName(name).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return siteService.getByName(name).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping(path = "/findByUserId", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -135,6 +135,6 @@ public class SiteController {
     })
 
     public ResponseEntity<List<Site>> getByUserId(@RequestParam(name = "userId") String userId) throws Exception {
-        return ResponseEntity.ok(siteService.getSitesByUserId(userId));
+        return ResponseEntity.ok(siteService.getByUserId(userId));
     }
 }

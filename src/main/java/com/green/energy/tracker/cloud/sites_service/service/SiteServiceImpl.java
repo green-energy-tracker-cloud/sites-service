@@ -1,7 +1,10 @@
 package com.green.energy.tracker.cloud.sites_service.service;
 
+import com.google.cloud.firestore.Firestore;
 import com.green.energy.tracker.cloud.sites_service.model.Site;
+import com.green.energy.tracker.cloud.sites_service.repository.SiteRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
@@ -12,13 +15,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SiteServiceImpl implements SiteService{
 
-
+    private final SiteRepository siteRepository;
 
     @Override
-    public Site createSite(String userId, String name, String description, String location) throws Exception {
-        String siteId = UUID.randomUUID().toString();
-        Instant now = Instant.now();
-        return Site.builder()
+    public Site save(String userId, String name, String description, String location) throws Exception {
+        var siteId = UUID.randomUUID().toString();
+        var now = Instant.now();
+        var site = Site.builder()
                 .siteId(siteId)
                 .userId(userId)
                 .name(name)
@@ -27,30 +30,31 @@ public class SiteServiceImpl implements SiteService{
                 .creationDate(now)
                 .lastUpdateDate(now)
                 .build();
+        return siteRepository.save(site);
     }
 
     @Override
-    public Optional<Site> getSiteByName(String name) throws Exception {
+    public Optional<Site> getByName(String name) throws Exception {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Site> updateSite(String siteId, Site updatedSite) throws Exception {
+    public Optional<Site> update(String siteId, Site updatedSite) throws Exception {
         return Optional.empty();
     }
 
     @Override
-    public Boolean deleteSite(String name) throws Exception {
+    public Boolean delete(String name) throws Exception {
         return true;
     }
 
     @Override
-    public List<Site> getAllSites() throws Exception {
+    public List<Site> getAll() throws Exception {
         return List.of();
     }
 
     @Override
-    public List<Site> getSitesByUserId(String userId) throws Exception {
+    public List<Site> getByUserId(String userId) throws Exception {
         return List.of();
     }
 }

@@ -60,7 +60,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Spring Cloud GCP Firestore -->
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>spring-cloud-gcp-starter-firestore</artifactId>
+			<version>7.3.2</version>
+		</dependency>
 	</dependencies>
+	<!-- Dependency Management -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -79,7 +86,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
+	<!-- Build Plugins -->
 	<build>
 		<plugins>
 			<plugin>
