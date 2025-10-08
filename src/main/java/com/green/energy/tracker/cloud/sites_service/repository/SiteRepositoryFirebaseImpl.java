@@ -53,7 +53,11 @@ public class SiteRepositoryFirebaseImpl implements SiteRepository{
     @Override
     public Optional<Site> update(String name, Site updatedSite) {
         var optSite = getByName(name);
-        return optSite.map(this::save);
+        if (optSite.isEmpty()) {
+            log.info("Site not found with name: {}", name);
+            return Optional.empty();
+        }
+        return Optional.of(save(updatedSite));
     }
 
     @Override
