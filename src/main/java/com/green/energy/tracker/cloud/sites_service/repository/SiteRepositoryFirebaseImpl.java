@@ -4,11 +4,13 @@ import com.google.cloud.firestore.Firestore;
 import com.green.energy.tracker.cloud.sites_service.model.Site;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
+@Repository
 @RequiredArgsConstructor
 @Slf4j
 public class SiteRepositoryFirebaseImpl implements SiteRepository{
