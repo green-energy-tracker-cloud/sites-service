@@ -35,7 +35,20 @@ public class SiteRepositoryFirebaseImpl implements SiteRepository{
 
     @Override
     public Optional<Site> getByName(String name) {
-        return Optional.empty();
+        try {
+            return firestoreClient.collection(SITES_COLLECTION)
+                    .whereEqualTo("name", name)
+                    .get()
+                    .get()
+                    .getDocuments()
+                    .stream()
+                    .map(queryDocumentSnapshot -> queryDocumentSnapshot.toObject(Site.class))
+                    .findFirst();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Error retrieving site by name: {}", e.getMessage());
+            Thread.currentThread().interrupt();
+            return Optional.empty();
+        }
     }
 
     @Override
