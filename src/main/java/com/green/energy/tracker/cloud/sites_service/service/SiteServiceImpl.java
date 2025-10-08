@@ -18,7 +18,7 @@ public class SiteServiceImpl implements SiteService{
     private final SiteRepository siteRepository;
 
     @Override
-    public Site save(String userId, String name, String description, String location) throws Exception {
+    public Site save(String userId, String name, String description, String location) {
         var siteId = UUID.randomUUID().toString();
         var now = Instant.now();
         var site = Site.builder()
@@ -34,27 +34,27 @@ public class SiteServiceImpl implements SiteService{
     }
 
     @Override
-    public Optional<Site> getByName(String name) throws Exception {
-        return Optional.empty();
+    public Optional<Site> getByName(String name) {
+        return siteRepository.getByName(name);
     }
 
     @Override
-    public Optional<Site> update(String siteId, Site updatedSite) throws Exception {
-        return Optional.empty();
+    public Optional<Site> update(String siteId, Site updatedSite) {
+        return siteRepository.update(siteId, updatedSite);
     }
 
     @Override
-    public Boolean delete(String name) throws Exception {
-        return true;
+    public Boolean delete(String name) {
+        return siteRepository.delete(name);
     }
 
     @Override
-    public List<Site> getAll() throws Exception {
-        return List.of();
+    public List<Site> getAll() {
+        return siteRepository.getAll();
     }
 
     @Override
-    public List<Site> getByUserId(String userId) throws Exception {
-        return List.of();
+    public List<Site> getByUserId(String userId) {
+        return siteRepository.getByUserId(userId);
     }
 }
