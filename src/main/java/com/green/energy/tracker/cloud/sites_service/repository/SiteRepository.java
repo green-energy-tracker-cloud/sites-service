@@ -24,11 +24,11 @@ public interface SiteRepository {
     /**
      * Aggiorna un sito esistente.
      *
-     * @param siteId ID del sito da aggiornare
+     * @param name name del sito da aggiornare
      * @param updatedSite dati aggiornati del sito
      * @return Site aggiornato
      */
-    Optional<Site> update(String siteId, Site updatedSite);
+    Optional<Site> update(String name, Site updatedSite);
 
     /**
      * Elimina un sito dato il suo nome.

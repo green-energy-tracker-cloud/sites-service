@@ -39,8 +39,8 @@ public class SiteServiceImpl implements SiteService{
     }
 
     @Override
-    public Optional<Site> update(String siteId, Site updatedSite) {
-        return siteRepository.update(siteId, updatedSite);
+    public Optional<Site> update(String name, Site updatedSite) {
+        return siteRepository.update(name, updatedSite);
     }
 
     @Override

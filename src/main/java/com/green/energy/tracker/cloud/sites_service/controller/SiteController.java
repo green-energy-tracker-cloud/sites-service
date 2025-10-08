@@ -58,8 +58,8 @@ public class SiteController {
             @ApiResponse(responseCode = "504", description = "Gateway Timeout", content = {@Content(mediaType = "application/json")})
     })
 
-    public ResponseEntity<Site> updateSite(@RequestParam(name = "siteId") String siteId, @RequestBody Site site) throws Exception {
-        return siteService.update(siteId,site).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Site> updateSite(@RequestParam(name = "name") String name, @RequestBody Site site) throws Exception {
+        return siteService.update(name,site).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
 

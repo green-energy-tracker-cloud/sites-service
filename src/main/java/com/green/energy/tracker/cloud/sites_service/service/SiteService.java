@@ -34,11 +34,11 @@ public interface SiteService {
     /**
      * Aggiorna un sito esistente.
      *
-     * @param siteId ID del sito da aggiornare
+     * @param name name del sito da aggiornare
      * @param updatedSite dati aggiornati del sito
      * @return Site aggiornato
      */
-    Optional<Site> update(String siteId, Site updatedSite) throws Exception;
+    Optional<Site> update(String name, Site updatedSite) throws Exception;
 
     /**
      * Elimina un sito dato il suo nome.

@@ -5,7 +5,6 @@ import com.green.energy.tracker.cloud.sites_service.model.Site;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -52,22 +51,65 @@ public class SiteRepositoryFirebaseImpl implements SiteRepository{
     }
 
     @Override
-    public Optional<Site> update(String siteId, Site updatedSite) {
-        return Optional.empty();
+    public Optional<Site> update(String name, Site updatedSite) {
+        var optSite = getByName(name);
+        return optSite.map(this::save);
     }
 
     @Override
     public Boolean delete(String name) {
-        return null;
+        var optSite = getByName(name);
+        if (optSite.isPresent()) {
+            try {
+                firestoreClient.collection(SITES_COLLECTION)
+                        .document(optSite.get().getSiteId())
+                        .delete()
+                        .get();
+                log.info("Site deleted with name: {}", name);
+                return true;
+            } catch (InterruptedException | ExecutionException e) {
+                log.error("Error deleting site: {}", e.getMessage());
+                Thread.currentThread().interrupt();
+                return false;
+            }
+        } else {
+            log.warn("Site not found with name: {}", name);
+            return false;
+        }
     }
 
     @Override
     public List<Site> getAll() {
-        return List.of();
+        try {
+            return firestoreClient.collection(SITES_COLLECTION)
+                    .get()
+                    .get()
+                    .getDocuments()
+                    .stream()
+                    .map(queryDocumentSnapshot -> queryDocumentSnapshot.toObject(Site.class))
+                    .toList();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Error retrieving all sites: {}", e.getMessage());
+            Thread.currentThread().interrupt();
+            return List.of();
+        }
     }
 
     @Override
     public List<Site> getByUserId(String userId) {
-        return List.of();
+        try {
+            return firestoreClient.collection(SITES_COLLECTION)
+                    .whereEqualTo("userId", userId)
+                    .get()
+                    .get()
+                    .getDocuments()
+                    .stream()
+                    .map(queryDocumentSnapshot -> queryDocumentSnapshot.toObject(Site.class))
+                    .toList();
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Error retrieving sites by userId: {}", e.getMessage());
+            Thread.currentThread().interrupt();
+            return List.of();
+        }
     }
 }
