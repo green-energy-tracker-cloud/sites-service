@@ -34,7 +34,7 @@
 		<openApiVersion>2.7.0</openApiVersion>
 		<sonarPluginVersion>3.9.1.2184</sonarPluginVersion>
 		<firestoreVersion>7.3.2</firestoreVersion>
-		<resilience4jVersion>2.3.0</resilience4jVersion>
+		<resilience4jVersion>2.2.0</resilience4jVersion>
 	</properties>
 	<dependencies>
 		<!-- Spring Boot -->
