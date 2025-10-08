@@ -33,12 +33,21 @@
 		<swaggerVersion>2.2.13</swaggerVersion>
 		<openApiVersion>2.7.0</openApiVersion>
 		<sonarPluginVersion>3.9.1.2184</sonarPluginVersion>
+		<firestoreVersion>7.3.2</firestoreVersion>
+		<resilience4jVersion>2.3.0</resilience4jVersion>
 	</properties>
 	<dependencies>
+		<!-- Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -55,16 +64,17 @@
 			<artifactId>swagger-annotations</artifactId>
 			<version>${swaggerVersion}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 		<!-- Spring Cloud GCP Firestore -->
 		<dependency>
 			<groupId>com.google.cloud</groupId>
 			<artifactId>spring-cloud-gcp-starter-firestore</artifactId>
-			<version>7.3.2</version>
+			<version>${firestoreVersion}</version>
+		</dependency>
+		<!-- Resilience4j -->
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-spring-boot3</artifactId>
+			<version>${resilience4jVersion}</version>
 		</dependency>
 	</dependencies>
 	<!-- Dependency Management -->

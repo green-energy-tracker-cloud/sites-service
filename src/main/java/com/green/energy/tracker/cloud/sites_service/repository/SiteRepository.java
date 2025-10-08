@@ -4,6 +4,7 @@ import com.green.energy.tracker.cloud.sites_service.model.Site;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 public interface SiteRepository {
     /**
@@ -11,7 +12,7 @@ public interface SiteRepository {
      *
      * @param site sito da creare
      */
-    Site save(Site site);
+    Site save(Site site) throws ExecutionException, InterruptedException;
 
     /**
      * Recupera un sito dato il suo nome.
@@ -19,7 +20,7 @@ public interface SiteRepository {
      * @param name nome del sito da recuperare
      * @return Site se trovato, altrimenti Optional vuoto
      */
-    Optional<Site> getByName(String name);
+    Optional<Site> getByName(String name) throws ExecutionException, InterruptedException;
 
     /**
      * Aggiorna un sito esistente.
@@ -28,21 +29,21 @@ public interface SiteRepository {
      * @param updatedSite dati aggiornati del sito
      * @return Site aggiornato
      */
-    Optional<Site> update(String name, Site updatedSite);
+    Optional<Site> update(String name, Site updatedSite) throws ExecutionException, InterruptedException;
 
     /**
      * Elimina un sito dato il suo nome.
      *
      * @param name nome del sito da eliminare
      */
-    Boolean delete(String name);
+    Boolean delete(String name) throws ExecutionException, InterruptedException;
 
     /**
      * Restituisce tutti i siti presenti nel database.
      *
      * @return lista di Site
      */
-    List<Site> getAll();
+    List<Site> getAll() throws ExecutionException, InterruptedException;
 
     /**
      * Trova tutti i siti associati a uno specifico utente.
@@ -50,5 +51,53 @@ public interface SiteRepository {
      * @param userId ID utente
      * @return lista di Site per l’utente
      */
-    List<Site> getByUserId(String userId);
+    List<Site> getByUserId(String userId) throws ExecutionException, InterruptedException;
+
+    /** Fallback method for handling Firestore errors.
+     *
+     * @param site the site to be saved
+     * @param error the exception that was thrown
+     * @return a default Site or null
+     */
+    Site saveFallback(Site site, Throwable error);
+
+    /** Fallback method for handling Firestore errors.
+     *
+     * @param name the name of the site to be retrieved
+     * @param error the exception that was thrown
+     * @return an empty Optional
+     */
+    Optional<Site> getByNameFallback(String name, Throwable error);
+
+    /** Fallback method for handling Firestore errors.
+     *
+     * @param name the name of the site to be updated
+     * @param updatedSite the updated site data
+     * @param error the exception that was thrown
+     * @return an empty Optional
+     */
+    Optional<Site> updateFallback(String name, Site updatedSite, Throwable error);
+
+    /** Fallback method for handling Firestore errors.
+     *
+     * @param name the name of the site to be deleted
+     * @param error the exception that was thrown
+     * @return false indicating the delete operation failed
+     */
+    Boolean deleteFallback(String name, Throwable error);
+
+    /** Fallback method for handling Firestore errors.
+     *
+     * @param error the exception that was thrown
+     * @return an empty list
+     */
+    List<Site> getAllFallback(Throwable error);
+
+    /** Fallback method for handling Firestore errors.
+     *
+     * @param userId the user ID whose sites are to be retrieved
+     * @param error the exception that was thrown
+     * @return an empty list
+     */
+    List<Site> getByUserIdFallback(String userId, Throwable error);
 }
