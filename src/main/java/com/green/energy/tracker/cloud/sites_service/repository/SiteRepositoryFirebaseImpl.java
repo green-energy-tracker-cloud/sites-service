@@ -21,7 +21,7 @@ public class SiteRepositoryFirebaseImpl implements SiteRepository{
     @CircuitBreaker(name = "firestoreCb", fallbackMethod = "saveFallback")
     @Override
     public Site save(Site site) throws ExecutionException, InterruptedException {
-        throw new ExecutionException(new Throwable("Simulated Firestore failure"));
+        throw new RuntimeException("Simulated Firestore failure");
         //firestoreClient.collection(SITES_COLLECTION)
         //        .document(site.getSiteId())
         //        .set(site)
