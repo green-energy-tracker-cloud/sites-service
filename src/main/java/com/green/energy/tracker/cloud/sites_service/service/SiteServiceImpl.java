@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
-@Service("SiteServiceV1")
+@Service
 @RequiredArgsConstructor
 @Slf4j
 public class SiteServiceImpl implements SiteService{
