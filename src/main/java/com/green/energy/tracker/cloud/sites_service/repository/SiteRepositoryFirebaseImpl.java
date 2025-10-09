@@ -1,8 +1,6 @@
 package com.green.energy.tracker.cloud.sites_service.repository;
 
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.WriteResult;
 import com.green.energy.tracker.cloud.sites_service.model.Site;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

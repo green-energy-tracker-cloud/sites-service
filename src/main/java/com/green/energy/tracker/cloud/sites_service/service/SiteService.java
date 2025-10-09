@@ -41,7 +41,7 @@ public interface SiteService {
      *
      * @param name nome del sito da eliminare
      */
-    Boolean delete(String name) throws ExecutionException, InterruptedException;
+    boolean delete(String name) throws ExecutionException, InterruptedException;
 
     /**
      * Restituisce tutti i siti presenti nel database.

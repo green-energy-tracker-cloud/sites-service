@@ -57,7 +57,7 @@ public class SiteServiceImpl implements SiteService{
 
     @CircuitBreaker(name = "firestoreCb", fallbackMethod = "deleteFallback")
     @Override
-    public Boolean delete(String name) throws ExecutionException, InterruptedException {
+    public boolean delete(String name) throws ExecutionException, InterruptedException {
         validateInput(name, "name");
         return siteRepository.delete(name);
     }
@@ -87,7 +87,7 @@ public class SiteServiceImpl implements SiteService{
     }
 
     public Optional<Site> updateFallback(String name, Site updatedSite, Throwable error) {
-        log.error("Fallback triggered for update. Name: {}, Error: {}", name, error.getClass().getSimpleName(), error);
+        log.error("Fallback triggered for update. Name: {}, UpdatedSite: {}, Error: {}", name, updatedSite, error.getClass().getSimpleName(), error);
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot update site.", error);
     }
 
