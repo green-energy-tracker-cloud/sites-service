@@ -2,6 +2,7 @@ substitutions:
   _ARTIFACT_REGISTRY_REPO: "artifact-repo"
   _IMAGE_NAME: "sites-service"
   _LOCATION: "us-east1"
+  _ENV_FILE: "gs://microservices_config/sites-service/env-prod.yaml"
 
 availableSecrets:
   secretManager:
@@ -39,11 +40,16 @@ steps:
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
-    args: [
-      'run', 'deploy', '$_IMAGE_NAME',
-      '--image=$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA',
-      '--region=$_LOCATION',
-      '--platform=managed',
-      '--service-account=cloud-run-runtime@green-energy-tracker.iam.gserviceaccount.com',
-      '--allow-unauthenticated'
+    args:
+      - -c
+      - |
+        gsutil cp $_ENV_FILE ./env.yaml
+        
+        gcloud run deploy $_IMAGE_NAME \
+          --image=$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA \
+          --region=$_LOCATION \
+          --platform=managed \
+          --service-account=cloud-run-runtime@green-energy-tracker.iam.gserviceaccount.com \
+          --allow-unauthenticated \
+          --env-vars-file=./env.yaml
     ]
