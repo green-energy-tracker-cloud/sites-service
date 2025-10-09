@@ -2,7 +2,7 @@ substitutions:
   _ARTIFACT_REGISTRY_REPO: "artifact-repo"
   _IMAGE_NAME: "sites-service"
   _LOCATION: "us-east1"
-  _ENV_FILE: "gs://microservices_config/sites-service/env-prod.yaml"
+  _ENV_FILE: "gs://microservices_config/sites-service/env-prod-config.yaml"
 
 availableSecrets:
   secretManager:
