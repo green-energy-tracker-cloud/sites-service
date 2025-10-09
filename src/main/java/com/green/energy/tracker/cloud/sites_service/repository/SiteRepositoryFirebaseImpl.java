@@ -95,32 +95,32 @@ public class SiteRepositoryFirebaseImpl implements SiteRepository{
                 .toList();
     }
 
-    public Site saveFallback(Site site, Throwable error) {
+    public Site saveFallback(Site site, Throwable error) throws ExecutionException, InterruptedException {
         log.error("Error saving site: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot save site.", error);
     }
 
-    public Optional<Site> getByNameFallback(String name, Throwable error) {
+    public Optional<Site> getByNameFallback(String name, Throwable error) throws ExecutionException, InterruptedException {
         log.error("Error retrieving site by name: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot retrieve site by name.", error);
     }
 
-    public Optional<Site> updateFallback(String name, Site updatedSite, Throwable error) {
+    public Optional<Site> updateFallback(String name, Site updatedSite, Throwable error) throws ExecutionException, InterruptedException {
         log.error("Error updating site: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot update site.", error);
     }
 
-    public Boolean deleteFallback(String name, Throwable error) {
+    public Boolean deleteFallback(String name, Throwable error) throws ExecutionException, InterruptedException {
         log.error("Error deleting site: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot delete site.", error);
     }
 
-    public List<Site> getAllFallback(Throwable error) {
+    public List<Site> getAllFallback(Throwable error) throws ExecutionException, InterruptedException {
         log.error("Error retrieving all sites: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot retrieve all sites.", error);
     }
 
-    public List<Site> getByUserIdFallback(String userId, Throwable error) {
+    public List<Site> getByUserIdFallback(String userId, Throwable error) throws ExecutionException, InterruptedException {
         log.error("Error retrieving sites by userId: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot retrieve sites by userId.", error);
     }
