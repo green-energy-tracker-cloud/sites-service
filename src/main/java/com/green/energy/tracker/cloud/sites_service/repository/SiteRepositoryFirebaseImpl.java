@@ -95,37 +95,31 @@ public class SiteRepositoryFirebaseImpl implements SiteRepository{
                 .toList();
     }
 
-    @Override
     public Site saveFallback(Site site, Throwable error) {
         log.error("Error saving site: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot save site.", error);
     }
 
-    @Override
     public Optional<Site> getByNameFallback(String name, Throwable error) {
         log.error("Error retrieving site by name: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot retrieve site by name.", error);
     }
 
-    @Override
     public Optional<Site> updateFallback(String name, Site updatedSite, Throwable error) {
         log.error("Error updating site: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot update site.", error);
     }
 
-    @Override
     public Boolean deleteFallback(String name, Throwable error) {
         log.error("Error deleting site: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot delete site.", error);
     }
 
-    @Override
     public List<Site> getAllFallback(Throwable error) {
         log.error("Error retrieving all sites: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot retrieve all sites.", error);
     }
 
-    @Override
     public List<Site> getByUserIdFallback(String userId, Throwable error) {
         log.error("Error retrieving sites by userId: {}", error.getMessage());
         throw new FirestoreUnavailableException("Firestore is unavailable. Cannot retrieve sites by userId.", error);
