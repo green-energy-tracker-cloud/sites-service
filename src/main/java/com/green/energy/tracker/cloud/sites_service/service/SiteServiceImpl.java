@@ -34,8 +34,7 @@ public class SiteServiceImpl implements SiteService{
                 .creationDate(now)
                 .lastUpdateDate(now)
                 .build();
-        throw new RuntimeException("Simulated failure");
-        //return siteRepository.save(site);
+        return siteRepository.save(site);
     }
 
     @CircuitBreaker(name = "firestoreCb", fallbackMethod = "getByNameFallback")
