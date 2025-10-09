@@ -39,12 +39,12 @@ steps:
     ]
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
+    entrypoint: bash
     args:
       - -c
       - |
         gsutil cp $_ENV_FILE ./env.yaml
-        
+
         gcloud run deploy $_IMAGE_NAME \
           --image=$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_ARTIFACT_REGISTRY_REPO/$_IMAGE_NAME:$COMMIT_SHA \
           --region=$_LOCATION \
@@ -52,4 +52,3 @@ steps:
           --service-account=cloud-run-runtime@green-energy-tracker.iam.gserviceaccount.com \
           --allow-unauthenticated \
           --env-vars-file=./env.yaml
-    ]
