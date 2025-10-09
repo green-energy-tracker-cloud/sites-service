@@ -5,10 +5,8 @@ resilience4j:
   circuitbreaker:
     instances:
       firestoreCb:
-        register-health-indicator: true
-        sliding-window-size: 10
-        minimum-number-of-calls: 5
-        failure-rate-threshold: 50
-        wait-duration-in-open-state: 30s
-        permitted-number-of-calls-in-half-open-state: 3
-        automatic-transition-from-open-to-half-open-enabled: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        registerHealthIndicator: true
