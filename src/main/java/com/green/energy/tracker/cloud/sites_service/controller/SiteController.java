@@ -116,4 +116,10 @@ public class SiteController {
             @PathVariable @NotBlank String userId) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(siteService.getByUserId(userId));
     }
+
+    @PostMapping("/sites-events")
+    public ResponseEntity<String> handleEvent(@RequestBody String cloudEventJson) {
+        System.out.println("Evento Firestore ricevuto: " + cloudEventJson);
+        return ResponseEntity.ok("Event received");
+    }
 }
