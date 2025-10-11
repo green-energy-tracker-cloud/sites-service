@@ -1,6 +1,7 @@
 package com.green.energy.tracker.cloud.sites_service.repository;
 
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.green.energy.tracker.cloud.sites_service.model.Site;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +35,7 @@ public class SiteRepositoryFirebaseImpl implements SiteRepository {
     @Override
     public Optional<Site> getByName(String name) throws ExecutionException, InterruptedException {
         log.debug("Fetching site by name: {}", name);
-        var documents = firestoreClient.collection(SITES_COLLECTION)
-                .whereEqualTo(FIELD_NAME, name)
-                .limit(1)
-                .get()
-                .get()
-                .getDocuments();
+        var documents = getDocumentsByField(FIELD_NAME,name,true);
         if (documents.isEmpty()) {
             log.debug("Site not found with name: {}", name);
             return Optional.empty();
@@ -51,12 +47,7 @@ public class SiteRepositoryFirebaseImpl implements SiteRepository {
     @Override
     public Optional<Site> update(String name, Site updatedSite) throws ExecutionException, InterruptedException {
         log.debug("Updating site with name: {}", name);
-        var documents = firestoreClient.collection(SITES_COLLECTION)
-                .whereEqualTo(FIELD_NAME, name)
-                .limit(1)
-                .get()
-                .get()
-                .getDocuments();
+        var documents = getDocumentsByField(FIELD_NAME,name,true);
         if (documents.isEmpty()) {
             log.warn("Site not found for update with name: {}", name);
             return Optional.empty();
@@ -74,12 +65,7 @@ public class SiteRepositoryFirebaseImpl implements SiteRepository {
     @Override
     public Boolean delete(String name) throws ExecutionException, InterruptedException {
         log.debug("Deleting site with name: {}", name);
-        var documents = firestoreClient.collection(SITES_COLLECTION)
-                .whereEqualTo(FIELD_NAME, name)
-                .limit(1)
-                .get()
-                .get()
-                .getDocuments();
+        var documents = getDocumentsByField(FIELD_NAME,name,true);
         if (documents.isEmpty()) {
             log.warn("Site not found for deletion with name: {}", name);
             return false;
@@ -96,10 +82,7 @@ public class SiteRepositoryFirebaseImpl implements SiteRepository {
     @Override
     public List<Site> getAll() throws ExecutionException, InterruptedException {
         log.debug("Fetching all sites");
-        var sites = firestoreClient.collection(SITES_COLLECTION)
-                .get()
-                .get()
-                .getDocuments()
+        var sites = getDocumentsByField("","",false)
                 .stream()
                 .map(doc -> doc.toObject(Site.class))
                 .toList();
@@ -110,15 +93,26 @@ public class SiteRepositoryFirebaseImpl implements SiteRepository {
     @Override
     public List<Site> getByUserId(String userId) throws ExecutionException, InterruptedException {
         log.debug("Fetching sites for userId: {}", userId);
-        var sites = firestoreClient.collection(SITES_COLLECTION)
-                .whereEqualTo(FIELD_USER_ID, userId)
-                .get()
-                .get()
-                .getDocuments()
+        var sites = getDocumentsByField(FIELD_USER_ID,userId,true)
                 .stream()
                 .map(doc -> doc.toObject(Site.class))
                 .toList();
         log.info("Fetched {} sites for userId: {}", sites.size(), userId);
         return sites;
+    }
+
+    private List<QueryDocumentSnapshot> getDocumentsByField(String fieldName, String value, boolean findOnlyOne) throws ExecutionException, InterruptedException {
+        if(findOnlyOne)
+            return firestoreClient.collection(SITES_COLLECTION)
+                .whereEqualTo(fieldName, value)
+                .limit(1)
+                .get()
+                .get()
+                .getDocuments();
+        else
+            return firestoreClient.collection(SITES_COLLECTION)
+                .get()
+                .get()
+                .getDocuments();
     }
 }
